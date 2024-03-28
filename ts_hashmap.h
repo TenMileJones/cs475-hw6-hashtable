@@ -13,9 +13,12 @@ typedef struct ts_entry_t {
 // and the number of operations that it has run.
 typedef struct ts_hashmap_t {
    ts_entry_t **table;
+   pthread_mutex_t **bucketLocks;
    int numOps;
+   pthread_mutex_t *opLock;
    int capacity;
    int size;
+   pthread_mutex_t *sizeLock;
 } ts_hashmap_t;
 
 // function declarations
@@ -25,3 +28,4 @@ int put(ts_hashmap_t*, int, int);
 int del(ts_hashmap_t*, int);
 void printmap(ts_hashmap_t*);
 void freeMap(ts_hashmap_t*);
+void freeChain(ts_entry_t*);
