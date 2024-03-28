@@ -269,6 +269,7 @@ void freeMap(ts_hashmap_t *map) {
       freeChain(map->table[i]);
     }
     pthread_mutex_destroy(map->bucketLocks[i]);
+    free(map->bucketLocks[i]);
   }
 
   // free attributes of map
@@ -276,6 +277,8 @@ void freeMap(ts_hashmap_t *map) {
   free(map->bucketLocks);
   pthread_mutex_destroy(map->opLock);
   pthread_mutex_destroy(map->sizeLock);
+  free(map->opLock);
+  free(map->sizeLock);
   
   // free hash table
   free(map);
